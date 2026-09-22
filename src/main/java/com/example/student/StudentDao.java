@@ -1,5 +1,7 @@
 package com.example.student;
 
+import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +19,7 @@ import java.util.List;
 //再从数据库逐行读取：while (rs.next()) {}
 //每读取到一行，就构建一个 Student 对象，再加入集合：students.add(student);
 //最后：return students;
+@Repository
 public class StudentDao {
     public List<Student> findall()throws SQLException{
         List<Student> students = new ArrayList<>();

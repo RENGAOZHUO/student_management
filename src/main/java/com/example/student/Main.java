@@ -1,11 +1,14 @@
 package com.example.student;
 
+import com.example.springdemo.AppConfig;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args){
-        StudentDao dao = new StudentDao();
+        /*StudentDao dao = new StudentDao();
 
         try(Scanner sc = new Scanner(System.in)){
             while(true){
@@ -133,7 +136,31 @@ public class Main {
                     System.out.println("数字格式错误，请重新输入！");
                 }
             }
+        }*/
+        try(AnnotationConfigApplicationContext context=
+                    new AnnotationConfigApplicationContext(com.example.student.AppConfig.class);
+        ){
+            System.out.println(
+                    "正在使用的配置类：" + AppConfig.class.getName()
+            );
+
+            System.out.println(
+                    "StudentService 是否存在：" +
+                            context.containsBean("studentService")
+            );
+            StudentService service = context.getBean(StudentService.class);
+
+            try{
+                service.showAllStudents();
+            }catch(SQLException e){
+                System.out.println(
+                        "数据库查询失败:"+e.getMessage()
+                );
+            }
         }
+
+
+
     }
 }
 //什么是 Maven？
