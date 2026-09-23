@@ -19,4 +19,8 @@ public class StudentService {
             System.out.println(student);
         }
     }
+
+    public String grtStatus(){
+        return "StudentService is ready";
+    }
 }
