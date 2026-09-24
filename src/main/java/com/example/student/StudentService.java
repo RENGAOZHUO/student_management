@@ -3,6 +3,7 @@ package com.example.student;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class StudentService {
@@ -22,5 +23,25 @@ public class StudentService {
 
     public String grtStatus(){
         return "StudentService is ready";
+    }
+
+    public List<Student> findAllStudents() throws SQLException{
+
+        return studentDao.findall();
+    }
+
+    public Student findStudentById(int id) throws SQLException{
+
+        return studentDao.findById(id);
+    }
+
+    public int addStudent(Student student)throws SQLException{
+
+        int rows = studentDao.addStudent(
+                student.getName(),
+                student.getAge(),
+                student.getScore()
+        );
+        return rows;
     }
 }

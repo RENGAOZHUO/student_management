@@ -14,5 +14,4 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan("com.example.student")
 public class AppConfig {
-
 }

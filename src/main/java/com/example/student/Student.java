@@ -1,4 +1,7 @@
 package com.example.student;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 //我们重写了 toString()。还记得 Day31 吗？之前你直接打印 Student，得到的是：
 //Day_31.Student@4f023edb
 //今天重写后，就能直接使用：System.out.println(student);来输出学生信息。
@@ -14,7 +17,11 @@ public class Student {
         this.age = age;
         this.score = score;
     }
+    @JsonCreator
+    public Student() {
+    }
 
+    // Getter
     public int getId(){
         return id;
     }
@@ -30,6 +37,23 @@ public class Student {
     public double getScore(){
         return score;
     }
+
+    //Setter
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setScore(double score) {
+        this.score = score;}
 
     @Override
     public String toString(){
