@@ -45,13 +45,29 @@ public class StudentService {
         return rows;
     }
 
-    public boolean updateScore(int id,double score){
+    public UpdateScoreResult updateScore(int id, Double score){
+
+        if(score == null
+        ||!Double.isFinite(score)
+        ||score<0
+        ||score>100
+        ){
+            return UpdateScoreResult.INVALID_SCORE;
+        }
 
         try {
-            return studentDao.updateScore(id,score);
+            boolean success = studentDao.updateScore(id,score);
+
+            if(!success){
+                return UpdateScoreResult.STUDENT_NOT_FOUND;
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return UpdateScoreResult.SUCCESS;
+
+
     }
 
     public boolean deleteStudent(int id){

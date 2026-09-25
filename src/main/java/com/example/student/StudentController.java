@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/students")
@@ -80,16 +79,15 @@ public class StudentController {
             @PathVariable("id") int id,
             @RequestBody UpdateScoreRequest request
    ){
-        Double score = request.getScore();
+        UpdateScoreResult result =
+                studentService.updateScore(id,request.getScore());
 
-        if(score == null||!Double.isFinite(score)||score<0||score>100){
+        if(result == UpdateScoreResult.INVALID_SCORE){
 
             return ResponseEntity.badRequest().build();
         }
 
-        boolean success = studentService.updateScore(id,score);
-
-        if(!success){
+        if(result == UpdateScoreResult.STUDENT_NOT_FOUND){
             return ResponseEntity.notFound().build();
         }
 

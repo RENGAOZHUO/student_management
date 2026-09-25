@@ -18,7 +18,7 @@ PUT http://localhost:8080/api/students/13/score
 Content-Type: application/json
 
 {
-  "score": 100
+  "score": 15.0
 }
 
 ### 删除学生（Day 42）
