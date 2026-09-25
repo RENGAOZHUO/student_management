@@ -20,3 +20,8 @@ Content-Type: application/json
 {
   "score": 114511
 }
+
+### 删除学生（Day 42）
+DELETE http://localhost:8080/api/students/12
+Content-Type: application/json
+

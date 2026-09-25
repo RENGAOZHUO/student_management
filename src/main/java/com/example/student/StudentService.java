@@ -62,4 +62,26 @@ public class StudentService {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean deleteStudent(int id){
+
+        try {
+            Student student = studentDao.findById(id);
+
+            if (student == null) {
+               return false;
+            }
+
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        try {
+            studentDao.deleteById(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
+    }
 }
