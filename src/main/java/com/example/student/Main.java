@@ -98,9 +98,9 @@ public class Main {
                                 break;
                             }
 
-                            int row = dao.updateSCore(id,score);
+                            int result = dao.updateSCore(id,score);
 
-                            if(row>0){
+                            if(result){
                                 System.out.println("修改成绩成功！");
                             }else{
                                 System.out.println("修改失败：学生不存在!");
@@ -112,12 +112,12 @@ public class Main {
 
                             int id = Integer.parseInt(sc.nextLine());
 
-                            int row = dao.deleteById(id);
+                            boolean result = dao.deleteById(id);
 
-                            if(row>0){
-                                System.out.println("添加学生成功！");
+                            if(result){
+                                System.out.println("删除学生成功！");
                             }else{
-                                System.out.println("添加学生失败！");
+                                System.out.println("删除学生失败！");
                             }
                             break;
                         }

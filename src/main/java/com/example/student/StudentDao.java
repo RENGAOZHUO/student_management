@@ -84,7 +84,7 @@ public class StudentDao {
         }
 
     }
-    public int updateScore(int id,double newScore) throws SQLException{
+    public boolean updateScore(int id,double newScore) throws SQLException{
 
         String sql = "UPDATE student SET score=? WHERE id =?";
 
@@ -94,10 +94,12 @@ public class StudentDao {
             ps.setDouble(1,newScore);//为什么先 setDouble，再 setInt？因为占位符的编号取决于 SQL 中 ? 出现的顺序，而不是 Java 方法参数的顺序。
             ps.setInt(2,id);
 
-            return ps.executeUpdate();//为什么使用 executeUpdate()？它用于执行 INSERT、UPDATE、DELETE 等语句，并返回受影响的行数。int rows = dao.updateScore(3, 90);
+            int rows=ps.executeUpdate();
+
+            return rows>0;//为什么使用 executeUpdate()？它用于执行 INSERT、UPDATE、DELETE 等语句，并返回受影响的行数。int rows = dao.updateScore(3, 90);
         }//为什么这里返回 int，而不是 void？因为我们希望调用这个方法的人知道操作结果。
     }
-    public int deleteById(int id) throws SQLException{
+    public boolean deleteById(int id) throws SQLException{
         String sql = "DELETE FROM student WHERE id=?";
 
         try(
@@ -106,7 +108,10 @@ public class StudentDao {
                 )
         {
             ps.setInt(1,id);
-            return ps.executeUpdate();
+
+            int rows =ps.executeUpdate();
+
+            return rows>0;
         }
     }
 

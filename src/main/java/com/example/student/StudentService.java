@@ -48,16 +48,7 @@ public class StudentService {
     public boolean updateScore(int id,double score){
 
         try {
-            Student student = studentDao.findById(id);
-
-            if(student==null){
-                return false;
-            }
-
-            studentDao.updateScore(id,score);
-
-            return true;
-
+            return studentDao.updateScore(id,score);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -66,22 +57,9 @@ public class StudentService {
     public boolean deleteStudent(int id){
 
         try {
-            Student student = studentDao.findById(id);
-
-            if (student == null) {
-               return false;
-            }
-
-
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        try {
-            studentDao.deleteById(id);
+            return studentDao.deleteById(id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        return true;
     }
 }
