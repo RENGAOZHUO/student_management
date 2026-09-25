@@ -12,3 +12,11 @@ Content-Type: application/json
   "score": 95.5
 
 }
+
+### 修改成绩（Day 41）
+PUT http://localhost:8080/api/students/1/score
+Content-Type: application/json
+
+{
+  "score": 114511
+}

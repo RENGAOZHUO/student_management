@@ -75,32 +75,24 @@ public class StudentController {
     //这次不是 Controller、Service 或 SQL 的问题，而是对象反序列化时的构造方法选择问题。
     //另外，你的 id 是数据库自增主键，正常新增学生时不需要手动传入。
 
-    /*@PostMapping
-    public ResponseEntity<String> addStudent(
-            @RequestBody Map<String, Object> data
-    ) throws SQLException {
+   @PutMapping("/{id}/score")
+    public ResponseEntity<Void> updateScore(
+            @PathVariable("id") int id,
+            @RequestBody UpdateScoreRequest request
+   ){
+        Double score = request.getScore();
 
-        // 第一步：从 JSON 中获取数据
-        String name = (String) data.get("name");
+        if(score == null||!Double.isFinite(score)||score<0||score>100){
 
-        int age = ((Number) data.get("age")).intValue();
-
-        double score = ((Number) data.get("score")).doubleValue();
-
-        // 第二步：自己创建 Student 对象
-        Student student = new Student(0, name, age, score);
-
-        // 第三步：调用原来的 Service
-        int rows = studentService.addStudent(student);
-
-        if (rows == 1) {
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body("学生添加成功");
+            return ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("学生添加失败");
-    }*/
+        boolean success = studentService.updateScore(id,score);
+
+        if(!success){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+   }
 }

@@ -44,4 +44,22 @@ public class StudentService {
         );
         return rows;
     }
+
+    public boolean updateScore(int id,double score){
+
+        try {
+            Student student = studentDao.findById(id);
+
+            if(student==null){
+                return false;
+            }
+
+            studentDao.updateScore(id,score);
+
+            return true;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

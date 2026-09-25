@@ -84,7 +84,7 @@ public class StudentDao {
         }
 
     }
-    public int updateSCore(int id,double newScore) throws SQLException{
+    public int updateScore(int id,double newScore) throws SQLException{
 
         String sql = "UPDATE student SET score=? WHERE id =?";
 
