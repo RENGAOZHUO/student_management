@@ -45,27 +45,33 @@ public class StudentService {
         return rows;
     }
 
-    public UpdateScoreResult updateScore(int id, Double score){
+    public /*UpdateScoreResult*/ void updateScore(int id, Double score){
 
         if(score == null
         ||!Double.isFinite(score)
         ||score<0
         ||score>100
         ){
-            return UpdateScoreResult.INVALID_SCORE;
+            /*return UpdateScoreResult.INVALID_SCORE;*/
+            throw new IllegalArgumentException(
+                    "成绩必须在0到100之间"
+            );
         }
 
         try {
             boolean success = studentDao.updateScore(id,score);
 
             if(!success){
-                return UpdateScoreResult.STUDENT_NOT_FOUND;
+                /*return UpdateScoreResult.STUDENT_NOT_FOUND;*/
+                throw new StudentNotFoundException(
+                        "学生不存在，id = "+id
+                );
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return UpdateScoreResult.SUCCESS;
+        /*return UpdateScoreResult.SUCCESS;*/
 
 
     }

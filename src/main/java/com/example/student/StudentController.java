@@ -79,18 +79,18 @@ public class StudentController {
             @PathVariable("id") int id,
             @RequestBody UpdateScoreRequest request
    ){
-        UpdateScoreResult result =
+        /*UpdateScoreResult result =*/
                 studentService.updateScore(id,request.getScore());
 
-        if(result == UpdateScoreResult.INVALID_SCORE){
+        /*if(result == UpdateScoreResult.INVALID_SCORE){
 
             return ResponseEntity.badRequest().build();
         }
 
         if(result == UpdateScoreResult.STUDENT_NOT_FOUND){
             return ResponseEntity.notFound().build();
-        }
-
+        }*/
+        //如果 Service 抛出了异常，那谁处理？这就是今天最重要的新东西。
         return ResponseEntity.noContent().build();
    }
 
