@@ -17,11 +17,11 @@ Content-Type: application/json
 }
 
 ### 修改成绩（Day 41）
-PUT http://localhost:8080/api/students/1/score
+PUT http://localhost:8080/api/students/10086/score
 Content-Type: application/json
 
 {
-  "score": 150
+  "score":100
 }
 
 ### 删除学生（Day 42）

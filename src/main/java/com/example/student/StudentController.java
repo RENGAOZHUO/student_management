@@ -1,5 +1,6 @@
 package com.example.student;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,7 +78,8 @@ public class StudentController {
    @PutMapping("/{id}/score")
     public ResponseEntity<Void> updateScore(
             @PathVariable("id") int id,
-            @RequestBody UpdateScoreRequest request
+            @Valid @RequestBody UpdateScoreRequest request
+            /*@RequestBody它负责：把 JSON 转换成 Java 对象。*/
    ){
         /*UpdateScoreResult result =*/
                 studentService.updateScore(id,request.getScore());

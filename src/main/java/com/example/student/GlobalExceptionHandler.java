@@ -2,6 +2,8 @@ package com.example.student;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -78,6 +80,44 @@ public ResponseEntity<ApiError> handleStudentNotFound(
                 .status(HttpStatus.BAD_REQUEST)
                 .body(error);
 }
+
+@ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiError> handleValidation(
+            MethodArgumentNotValidException e
+){
+
+        String message =
+                e.getBindingResult()//获取：这次参数绑定和校验的结果。
+                        .getFieldError()//取得其中一个：字段错误。 例如：score字段出错
+                        .getDefaultMessage();//取得我们自己写的：message = "成绩不能超过100"
+    //于是：String message最后得到：成绩不能超过100
+
+        ApiError error =
+                new ApiError(
+                        400,
+                        message
+                );
+
+        return ResponseEntity
+                .badRequest()
+                .body(error);
+}
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiError> handleHttpMessageNotReadable(
+            HttpMessageNotReadableException e) {
+
+        ApiError error =
+                new ApiError(
+                        400,
+                        "请求体不能为空或JSON格式错误"
+                );
+
+        return ResponseEntity
+                .badRequest()
+                .body(error);
+    }//Day 47 一个非常好的补充知识：
+    //没有请求体→ JSON都无法转换→ HttpMessageNotReadableException
+
 }
 //今天再理解一下异常的完整流程
 //完整过程：
