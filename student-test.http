@@ -10,9 +10,9 @@ POST http://localhost:8080/api/students
 Content-Type: application/json
 
 {
-  "name": "Run",
-  "age": 22,
-  "score": 95.5
+  "name": "Alice",
+  "age": 21,
+  "score": 150
 
 }
 

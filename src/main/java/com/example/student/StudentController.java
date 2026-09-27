@@ -44,15 +44,33 @@ public class StudentController {
     //由于 Controller 已经有 /api/students 这个路径，因此最终接口就是：
     //POST http://localhost:8080/api/students
     public ResponseEntity<Void> addStudent(
-            @RequestBody Student student//它告诉 Spring：从 HTTP 请求体中读取 JSON，并把数据转换成一个 Student 对象。
+            @Valid @RequestBody CreateStudentRequest request//Student student//它告诉 Spring：从 HTTP 请求体中读取 JSON，并把数据转换成一个 Student 对象。
     ){
-        System.out.println("Controller 收到学生：" + student);
+        Student student = new Student();
+
+        student.setName(request.getName());
+        student.setAge(request.getAge());
+        student.setScore(request.getScore());
+        //这段：做的事情叫：Mapping 也就是：把一种对象转换成另一种对象。
+        //现在：CreateStudentRequest->mapping->Student
+        //这个概念以后非常常见。现阶段我们手动转换就足够了，不需要引入 MapStruct 之类的新工具。
+        //为什么不把 CreateStudentRequest 直接传给 DAO？
+        //因为：CreateStudentRequest属于：HTTP 请求模型。而 DAO 最好不要知道 Web 层存在什么 Request DTO。
+        //我们还是保持：Controller->Request DTO 转换 ->Student->Service->DAO
+        //这样 DAO 不需要关心：@RequestBody@Valid CreateStudentRequest这些 HTTP 层概念。
 
         studentService.addStudent(student);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
+        /*System.out.println("Controller 收到学生：" + student);
+
+        studentService.addStudent(student);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();*/
 
         /*if (rows == 1) {
             return ResponseEntity
