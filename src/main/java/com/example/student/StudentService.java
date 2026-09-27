@@ -25,24 +25,50 @@ public class StudentService {
         return "StudentService is ready";
     }
 
-    public List<Student> findAllStudents() throws SQLException{
+    public List<Student> findAllStudents(){
 
-        return studentDao.findall();
+        try{
+            return studentDao.findall();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
-    public Student findStudentById(int id) throws SQLException{
+    public Student findStudentById(int id){
 
-        return studentDao.findById(id);
+        try{
+            Student student = studentDao.findById(id);
+
+            if(student == null){
+                throw new StudentNotFoundException(
+                        "学生不存在，id = " + id
+                );
+            }
+
+            return student;
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
-    public int addStudent(Student student)throws SQLException{
+    public void addStudent(Student student){
 
-        int rows = studentDao.addStudent(
-                student.getName(),
-                student.getAge(),
-                student.getScore()
-        );
-        return rows;
+        try{
+            int rows = studentDao.addStudent(
+                    student.getName(),
+                    student.getAge(),
+                    student.getScore()
+            );
+
+            if(rows != 1){
+                throw new RuntimeException(
+                        "新增学生失败"
+                );
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     public /*UpdateScoreResult*/ void updateScore(int id, Double score){
@@ -76,11 +102,17 @@ public class StudentService {
 
     }
 
-    public boolean deleteStudent(int id){
+    public void deleteStudent(int id){
 
-        try {
-            return studentDao.deleteById(id);
-        } catch (SQLException e) {
+        try{
+            boolean success = studentDao.deleteById(id);
+
+            if(!success){
+                throw new StudentNotFoundException(
+                        "学生不存在，id = " + id
+                );
+            }
+        }catch(SQLException e){
             throw new RuntimeException(e);
         }
     }

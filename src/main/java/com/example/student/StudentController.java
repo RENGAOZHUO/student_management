@@ -26,20 +26,16 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getAllStudents() throws SQLException{
+    public List<Student> getAllStudents(){
 
         return studentService.findAllStudents();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(
-            @PathVariable int id) throws SQLException{
+            @PathVariable int id){
 
         Student student = studentService.findStudentById(id);
-
-        if(student == null){
-            return ResponseEntity.notFound().build();
-        }
 
         return ResponseEntity.ok(student);
     }
@@ -47,14 +43,18 @@ public class StudentController {
     @PostMapping//它表示这个方法负责处理 POST 请求。
     //由于 Controller 已经有 /api/students 这个路径，因此最终接口就是：
     //POST http://localhost:8080/api/students
-    public ResponseEntity<String> addStudent(
+    public ResponseEntity<Void> addStudent(
             @RequestBody Student student//它告诉 Spring：从 HTTP 请求体中读取 JSON，并把数据转换成一个 Student 对象。
-    )throws SQLException{
+    ){
         System.out.println("Controller 收到学生：" + student);
 
-        int rows = studentService.addStudent(student);
+        studentService.addStudent(student);
 
-        if (rows == 1) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();
+
+        /*if (rows == 1) {
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body("学生添加成功");
@@ -62,7 +62,7 @@ public class StudentController {
 
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("学生添加失败");//新增成功后，我们返回一个 HTTP 响应：
+                .body("学生添加失败");//新增成功后，我们返回一个 HTTP 响应：*/
     }
     //问题产生的原因
     //你的 Student 类有两个构造方法：一个无参构造方法，一个包含 id 的四参数构造方法。
@@ -101,11 +101,7 @@ public class StudentController {
             @PathVariable("id") int id
    ){
 
-        boolean success = studentService.deleteStudent(id);
-
-        if(!success){
-            return ResponseEntity.notFound().build();
-        }
+        studentService.deleteStudent(id);
 
         return ResponseEntity.noContent().build();
    }
