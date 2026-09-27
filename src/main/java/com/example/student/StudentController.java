@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,6 +19,16 @@ public class StudentController {
         this.studentService=studentService;
     }
 
+    private StudentResponse toResponse(Student student) {
+
+        return new StudentResponse(
+                student.getId(),
+                student.getName(),
+                student.getAge(),
+                student.getScore()
+        );
+    }
+
     @GetMapping("/status")
     public String status(){
 
@@ -26,18 +37,47 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getAllStudents(){
+    public List<StudentResponse> getAllStudents(){
 
-        return studentService.findAllStudents();
+        List<Student> students =
+                studentService.findAllStudents();
+
+        List<StudentResponse> responses =
+                new ArrayList<>();
+
+        for(Student student : students){
+
+            /*StudentResponse response =
+                    new StudentResponse(
+                            student.getId(),
+                            student.getName(),
+                            student.getAge(),
+                            student.getScore()
+                    );*/
+
+            responses.add(
+                    toResponse(student)
+            );
+        }
+
+        return responses;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(
+    public ResponseEntity<StudentResponse> getStudentById(
             @PathVariable int id){
 
         Student student = studentService.findStudentById(id);
 
-        return ResponseEntity.ok(student);
+        /*StudentResponse response =
+                new StudentResponse(
+                        student.getId(),
+                        student.getName(),
+                        student.getAge(),
+                        student.getScore()
+                );*/
+
+        return ResponseEntity.ok(toResponse(student));
     }
 
     @PostMapping//它表示这个方法负责处理 POST 请求。
