@@ -14,17 +14,6 @@ public class StudentService {
         this.studentDao = studentDao;
     }
 
-    public void showAllStudents() throws SQLException{
-
-        for(Student student : studentDao.findall()){
-            System.out.println(student);
-        }
-    }
-
-    public String grtStatus(){
-        return "StudentService is ready";
-    }
-
     public List<Student> findAllStudents(){
 
         try{

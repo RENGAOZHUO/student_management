@@ -137,27 +137,7 @@ public class Main {
                 }
             }
         }*/
-        try(AnnotationConfigApplicationContext context=
-                    new AnnotationConfigApplicationContext(com.example.student.AppConfig.class);
-        ){
-            System.out.println(
-                    "正在使用的配置类：" + AppConfig.class.getName()
-            );
 
-            System.out.println(
-                    "StudentService 是否存在：" +
-                            context.containsBean("studentService")
-            );
-            StudentService service = context.getBean(StudentService.class);
-
-            try{
-                service.showAllStudents();
-            }catch(SQLException e){
-                System.out.println(
-                        "数据库查询失败:"+e.getMessage()
-                );
-            }
-        }
 
 
 

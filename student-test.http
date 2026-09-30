@@ -3,14 +3,14 @@
 GET http://localhost:8080/api/students
 
 ### 依据id查找学生
-GET http://localhost:8080/api/students/10086
+GET http://localhost:8080/api/students/1
 
 ### 新增学生（Day 40）
 POST http://localhost:8080/api/students
 Content-Type: application/json
 
 {
-  "name": "Day50Test",
+  "name": "Day51Test",
   "age": 21,
   "score": 60
 
