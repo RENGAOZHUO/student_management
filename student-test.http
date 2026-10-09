@@ -34,4 +34,14 @@ POST http://localhost:8080/api/accounts/test/no-transaction
 ###
 POST http://localhost:8080/api/accounts/test/transaction
 
+###
+POST http://localhost:8080/api/accounts/transfer
+Content-Type: application/json
+
+{
+  "fromId": 1,
+  "toId": 2,
+  "amount": -200.00
+}
+
 
